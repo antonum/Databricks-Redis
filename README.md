@@ -10,9 +10,25 @@ To add required Redis-Spark libraries to your runtime add `com.redislabs:spark-r
 
 ![alt text](media/spark-redis-jar.png)
 
+
+## Add repo to the Workspace
+
+In your Databricks Workspace Repos->Add Repo, enter `https://github.com/antonum/Databricks-Redis.git` as Git repository URL.
+
+![alt text](media/add-repo.png)
+
 ## Get Free Redis Cloud account
 
 https://redis.com/try-free/ - sign up with google account. Capture the URL, Port and default user password for the database.
+
+Change the following lines in your notebook to use your own Redis Cloud endpoint and password:
+
+```python
+#Replace values below with your own if using Redis Cloud instance
+REDIS_HOST="redis-17231.c228.us-central1-1.gce.cloud.redislabs.com"
+REDIS_PORT=17231
+REDIS_PASSWORD="0XKOePIFBCtuNvV6PhsXl3ysQYXXXXXX"
+```
 
 ## References
 
