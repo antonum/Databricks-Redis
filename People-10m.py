@@ -19,6 +19,15 @@ display(df)
 
 # COMMAND ----------
 
+from pyspark.sql.types import MapType, StringType	
+from pyspark.sql.functions import *	
+from pyspark.sql.types import StructType,StructField, StringType
+
+df=df.withColumn("dobTimeStamp", col("birthDate").cast("integer"))
+display(df)
+
+# COMMAND ----------
+
 import os
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = os.getenv("REDIS_PORT", "6379")
@@ -26,7 +35,7 @@ REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "")
 #Replace values above with your own if using Redis Cloud instance
 REDIS_HOST="redis-17231.c228.us-central1-1.gce.cloud.redislabs.com"
 REDIS_PORT=17231
-REDIS_PASSWORD="0XKOePIFBCtuNvV6PhsXl3ysQY123456"
+REDIS_PASSWORD="0XKOePIFBCtuNvV6PhsXl3ysQYXXXXXX"
 
 #shortcut for redis-cli $REDIS_CONN command
 if REDIS_PASSWORD!="":
@@ -92,8 +101,14 @@ schema = (
     TextField("middleName", as_name="middleName"),
     TagField("ssn", as_name="ssn"),
     TagField("gender", as_name="gender"),
-    NumericField("salary", as_name="salary")
+    NumericField("salary", as_name="salary"),
+    NumericField("dobTimeStamp", as_name="dob")
     )
+try:
+    r.ft("idx:people").dropindex() # drop index if already exists
+except redis.ResponseError:
+    print("no existing index found")
+
 r.ft("idx:people").create_index(schema,
                     definition=IndexDefinition(prefix=["people:"],
                     index_type=IndexType.HASH)
@@ -101,6 +116,23 @@ r.ft("idx:people").create_index(schema,
 
 # COMMAND ----------
 
-query=Query("Me*")
+import pandas as pd
+#helper function to display results of redis.ft().search() as a dataframe
+def display_ft(res):
+  if res.total==0:
+    print("No matches found")
+  else:
+    res_df = pd.DataFrame([t.__dict__ for t in res.docs ]).drop(columns=["payload"])
+    display(res_df)
+
+# COMMAND ----------
+
+query=Query("Ma*")
 res=r.ft("idx:people").search(query)
-display(res)
+display_ft(res)
+
+# COMMAND ----------
+
+query=Query("@lastName:Me* @dob:[315532800, inf]") #only lastName strts with Me and DOB is 1980 or later
+res=r.ft("idx:people").search(query)
+display_ft(res)
