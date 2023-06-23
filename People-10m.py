@@ -29,19 +29,14 @@ display(df)
 # COMMAND ----------
 
 import os
-REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
-REDIS_PORT = os.getenv("REDIS_PORT", "6379")
-REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "")
-#Replace values above with your own if using Redis Cloud instance
+#REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+#REDIS_PORT = os.getenv("REDIS_PORT", "6379")
+#REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "")
+#Replace values below with your own if using Redis Cloud instance
 REDIS_HOST="redis-17231.c228.us-central1-1.gce.cloud.redislabs.com"
 REDIS_PORT=17231
 REDIS_PASSWORD="0XKOePIFBCtuNvV6PhsXl3ysQYXXXXXX"
 
-#shortcut for redis-cli $REDIS_CONN command
-if REDIS_PASSWORD!="":
-  os.environ["REDIS_CONN"]=f"-h {REDIS_HOST} -p {REDIS_PORT} -a {REDIS_PASSWORD} --no-auth-warning"
-else:
-  os.environ["REDIS_CONN"]=f"-h {REDIS_HOST} -p {REDIS_PORT}"
 
 # COMMAND ----------
 
