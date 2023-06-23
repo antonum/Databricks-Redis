@@ -16,15 +16,16 @@ https://redis.com/try-free/ - sign up with google account. Capture the URL, Port
 
 ## References
 
-Spark-Redis https://github.com/RedisLabs/spark-redis
-Redis-py https://github.com/redis/redis-py 
-Redis Search commands: https://redis.io/commands/?group=search
+- Spark-Redis https://github.com/RedisLabs/spark-redis
+- Redis-py https://github.com/redis/redis-py 
+- Redis Search commands: https://redis.io/commands/?group=search
+- Redis Workshops https://github.com/antonum/Redis-Workshops (See `03-Advanced_RedisSearch` for advanced redis search examples)
 
 ## Saving Dataframe to Redis
 
-The following code fragment would load content of Spark dataframe to Redis as Hash keys. Key names would be `f"people:{col("id")}"` where people is `table` option and `id` is `key.column` option.
+The following code fragment would load content of Spark dataframe to Redis as Hash keys. Key names would be `"people:1234"` where people is `table` option and 123 is a value of `id` column from `key.column` option.
 
-```
+```python
 df.write.format("org.apache.spark.sql.redis") \
       .mode("overwrite") \
       .option("table", "people") \

@@ -23,6 +23,7 @@ from pyspark.sql.types import MapType, StringType
 from pyspark.sql.functions import *	
 from pyspark.sql.types import StructType,StructField, StringType
 
+#If range search on Date field is required it has to be converted to timestamp
 df=df.withColumn("dobTimeStamp", col("birthDate").cast("integer"))
 display(df)
 
