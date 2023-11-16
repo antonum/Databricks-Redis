@@ -29,6 +29,9 @@ REDIS_HOST="redis-17231.c228.us-central1-1.gce.cloud.redislabs.com"
 REDIS_PORT=17231
 REDIS_PASSWORD="0XKOePIFBCtuNvV6PhsXl3ysQYXXXXXX"
 ```
+## Using Azure Cache for Redis Enterprise
+
+You can also use Azure Cache for Redis Enterprise with RediSearch. See [detailed instructions](README-ACRE.md#azure-cache-for-redis-enterprise-setup).
 
 ## References
 
